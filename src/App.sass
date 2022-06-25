@@ -1,0 +1,60 @@
+@mixin app-flow-element
+    width: 100%
+    margin-bottom: 20px
+
+@mixin menu-block-style
+    border-radius: 10px
+    padding: 20px
+
+body,
+#root
+    margin: 0
+    width: 100vw
+    height: 100vh
+    overflow: hidden
+    display: flex
+    align-items: center
+    justify-content: center
+
+.app
+    width: 50vw
+    height: 90vh
+    display: flex
+    align-items: center
+    flex-direction: column
+    overflow-y: scroll
+    overflow-x: hidden
+    font-family: 'Poppins', sans-serif
+
+    input, textarea
+        font-family: 'Poppins', sans-serif
+
+.add-template-button
+    background-color: lightgreen
+    border: none
+    color: white
+    font-size: 16px
+    @include app-flow-element
+    @include menu-block-style
+
+.material-icons
+    font-family: 'Material Icons'
+    font-weight: normal
+    font-style: normal
+    font-size: 24px
+    display: inline-block
+    line-height: 1
+    text-transform: none
+    letter-spacing: normal
+    word-wrap: normal
+    white-space: nowrap
+    direction: ltr
+
+    -webkit-font-smoothing: antialiased
+    text-rendering: optimizeLegibility
+
+    -moz-osx-font-smoothing: grayscale
+
+    font-feature-settings: 'liga'
+
+    cursor: pointer
