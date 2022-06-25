@@ -1,26 +1,5 @@
-# webpack-react-app
-My personal preferences for a boiler plate react app using webpack.
+# Document Generator UI
 
-## Use
-Install dependencies
-```
-npm  i
-```
+This app can be used to generate PDF documents using templates containing variable placeholders.
 
-Update dependencies to latest versions if you want
-```
-npm outdated
-```
-```
-npm update
-```
-
-Start dev server
-```
-npm run start
-```
-
-Build
-```
-npm run build
-```
+![](document-generator-demo.mov)
