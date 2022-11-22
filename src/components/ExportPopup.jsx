@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react'
-import pdfMake from './pdfMake'
+import pdfMake from '../pdfMake'
 import './ExportPopup.sass'
 
 const ExportPopup = ({ template, onClose }) => {
@@ -53,7 +53,7 @@ const ExportPopup = ({ template, onClose }) => {
                 </p>
                 {variableNames.map((variableName) => (
                     <React.Fragment key={variableName}>
-                        <p>{variableName}</p>
+                        <p className="label">{variableName}</p>
                         <input
                             placeholder={variableName}
                             value={variables[variableName]}
@@ -61,7 +61,7 @@ const ExportPopup = ({ template, onClose }) => {
                         />
                     </React.Fragment>
                 ))}
-                <button className="export-button" onClick={handleExport}>
+                <button className="export-button action" onClick={handleExport}>
                     Generate PDF
                 </button>
                 <button className="close-button" onClick={onClose}>

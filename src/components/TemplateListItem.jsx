@@ -30,7 +30,7 @@ const TemplateListItem = ({
                             className="material-icons expand"
                             onClick={toggleOpen}
                         >
-                            {isOpen ? 'expand_less' : 'expand_more'}
+                            edit
                         </span>
                     </div>
                     <div
