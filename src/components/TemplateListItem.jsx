@@ -1,55 +1,32 @@
 import React, { useState } from 'react'
+import { CSSTransition } from 'react-transition-group'
+import { formatDate } from '../util'
 import './TemplateListItem.sass'
 
-const TemplateListItem = ({
-    toggleOpen,
-    handleDelete,
-    handleExport,
-    template,
-    isOpen,
-}) => {
-    const [showIcons, setShowIcons] = useState(false)
+const TemplateListItem = ({ template, onClick, selected, onDelete }) => {
+    const [showIcon, setShowIcon] = useState(false)
 
     return (
-        <div className="template-list-item">
-            <div
-                className="button"
-                onMouseEnter={() => setShowIcons(true)}
-                onMouseLeave={() => setShowIcons(false)}
-            >
-                {template.title}
+        <div
+            className={`template-list-item ${selected && 'selected'}`}
+            onClick={onClick}
+            onMouseEnter={() => setShowIcon(true)}
+            onMouseLeave={() => setShowIcon(false)}
+        >
+            <div>
+                <h3>{template?.title}</h3>
+                <p>{formatDate(new Date(template?.created_at))}</p>
             </div>
-            {showIcons && (
-                <>
-                    <div
-                        className="icons-container left"
-                        onMouseEnter={() => setShowIcons(true)}
-                        onMouseLeave={() => setShowIcons(false)}
-                    >
-                        <span
-                            className="material-icons expand"
-                            onClick={toggleOpen}
-                        >
-                            edit
-                        </span>
-                    </div>
-                    <div
-                        className="icons-container right"
-                        onMouseEnter={() => setShowIcons(true)}
-                        onMouseLeave={() => setShowIcons(false)}
-                    >
-                        <span
-                            className="material-icons create"
-                            onClick={handleExport}
-                        >
-                            create_new_folder
-                        </span>
-                        <span className="material-icons" onClick={handleDelete}>
-                            delete
-                        </span>
-                    </div>
-                </>
-            )}
+            <CSSTransition
+                in={showIcon}
+                timeout={200}
+                classNames="fade"
+                unmountOnExit
+            >
+                <span className="material-icons hoverable" onClick={onDelete}>
+                    delete
+                </span>
+            </CSSTransition>
         </div>
     )
 }

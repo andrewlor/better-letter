@@ -1,33 +1,50 @@
-.template-editor
+@import '../common'
+.template-editor-container
     display: flex
     flex-direction: column
     width: 100%
+    align-items: center
+    justify-content: center
 
-    *
-        margin-bottom: 10px
-
-    .export-button
-        width: 100%
-        margin-bottom: 20px
-        background-color: lightgreen
-        padding: 20px 0
-        text-align: center
-        color: white
-        border-radius: 10px
-        border: 0
-        cursor: pointer
-
-    .variables-header
+    .template-editor
         display: flex
-        align-items: center
+        flex-direction: column
+        padding: 40px
+        @include fill-avaliable
+        margin-bottom: auto
 
         *
-            margin: 0
+            margin-bottom: 10px
 
-    .variable-inputs-container
+        .export-button
+            width: 100%
+            margin-bottom: 20px
+            background-color: lightgreen
+            padding: 20px 0
+            text-align: center
+            color: white
+            border-radius: 10px
+            border: 0
+            cursor: pointer
+
+        .variables-header
+            display: flex
+            align-items: center
+
+            *
+                margin: 0
+
+        .variable-inputs-container
+            display: flex
+            align-items: center
+
+            input
+                flex: 1
+                margin-right: 10px
+
+    .save-bar
+        @include fill-avaliable
         display: flex
-        align-items: center
-
-        input
-            flex: 1
-            margin-right: 10px
+        justify-content: flex-end
+        padding: 40px
+        background-color: $background-2

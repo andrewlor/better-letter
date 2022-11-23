@@ -1,80 +1,10 @@
-*
-    font-family: 'Poppins', sans-serif
-
-.hoverable
-    transition: transform 250ms ease
-
-    &:hover
-        transform: scale(1.1)
-
-button
-    border: none
-    background: none
-    padding: 10px
-    border-radius: 10px
-    text-align: center
-    opacity: 1
-
-    cursor: pointer
-    transition: opacity 250ms ease
-
-    &:hover
-        opacity: 0.6
-
-    &.action
-        background-color: lightgreen
-        color: white
-
-input, textarea
-    padding: 10px
-    border-radius: 5px
-    border: 1px solid grey
-
-body,
-#root
-    margin: 0
-    width: 100vw
-    height: 100vh
-    overflow: hidden
-    display: flex
-    align-items: center
-    justify-content: center
+@import '../common'
 
 .app
     display: flex
-    align-items: center
-    flex-direction: column
     overflow-y: scroll
     overflow-x: hidden
-
-    .menu
-        position: absolute
-        display: flex
-        flex-direction: column
-        left: 20px
-        top: 20px
-
-        *
-            margin-bottom: 20px
-
-.material-icons
-    font-family: 'Material Icons'
-    font-weight: normal
-    font-style: normal
-    font-size: 24px
-    display: inline-block
-    line-height: 1
-    text-transform: none
-    letter-spacing: normal
-    word-wrap: normal
-    white-space: nowrap
-    direction: ltr
-
-    -webkit-font-smoothing: antialiased
-    text-rendering: optimizeLegibility
-
-    -moz-osx-font-smoothing: grayscale
-
-    font-feature-settings: 'liga'
-
-    cursor: pointer
+    height: 100%
+    width: 100vw
+    color: white
+    background-color: $background-3

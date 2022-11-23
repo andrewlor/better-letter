@@ -1,0 +1,21 @@
+@import '../common'
+
+.template-list
+    display: flex
+    width: 400px
+    flex-direction: column
+    height: 100%
+    align-items: flex-start
+    overflow-y: auto
+    background-color: $background-2
+
+    p
+        color: grey
+
+    &.empty
+        align-items: center
+        justify-content: center
+        text-align: center
+
+        *
+            margin: 0 20px
