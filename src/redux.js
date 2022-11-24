@@ -36,12 +36,21 @@ export const DELETE_TEMPLATE_SUCCEEDED = createAction(
     'DELETE_TEMPLATE_SUCCEEDED'
 )
 export const DELETE_TEMPLATE_FAILED = createAction('DELETE_TEMPLATE_FAILED')
+export const CLEAR_ERROR = createAction('CLEAR_ERROR')
+export const SET_SUCCESS_MESSAGE = createAction('SET_SUCCESS_MESSAGE')
 
 const initialState = {
     isLoading: false,
     user: supabase.auth.user(),
     templates: null,
-    error: null,
+    message: {
+        type: 'error',
+        text: null,
+    },
+}
+
+const clearError = (state) => {
+    state.message.text = ''
 }
 
 const startLoading = (state) => {
@@ -50,6 +59,7 @@ const startLoading = (state) => {
 
 const stopLoading = (state) => {
     state.isLoading = false
+    clearError(state)
 }
 
 const handleLoginSignup = (state, action) => {
@@ -59,11 +69,19 @@ const handleLoginSignup = (state, action) => {
 
 const handleError = (state, action) => {
     state.isLoading = false
-    state.error = action.payload
+    state.message.text = action.payload
+    state.message.type = 'error'
+}
+
+const setSuccessMessage = (state, action) => {
+    state.message.text = action.payload
+    state.message.type = 'success'
 }
 
 const reducer = createReducer(initialState, (builder) => {
     builder
+        .addCase(SET_SUCCESS_MESSAGE, setSuccessMessage)
+        .addCase(CLEAR_ERROR, clearError)
         .addCase(LOGIN_REQUESTED, startLoading)
         .addCase(SIGNUP_REQUESTED, startLoading)
         .addCase(LOGOUT_REQUESTED, startLoading)

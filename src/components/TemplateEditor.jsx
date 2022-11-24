@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react'
 import { CSSTransition } from 'react-transition-group'
 import './TemplateEditor.sass'
 
-const TemplateEditor = ({ template, save }) => {
+const TemplateEditor = ({ template, save, onExport }) => {
     const [editingTemplate, setEditingTemplate] = useState(template)
 
     useEffect(() => {
@@ -25,7 +25,7 @@ const TemplateEditor = ({ template, save }) => {
             )
         )
 
-    const addVariable = () => () =>
+    const addVariable = () =>
         setVariables([
             ...editingTemplate.variables,
             { name: '', defaultValue: '' },
@@ -45,6 +45,15 @@ const TemplateEditor = ({ template, save }) => {
             {editingTemplate ? (
                 <>
                     <div className="template-editor">
+                        <div className="toolbar">
+                            <button
+                                className="action"
+                                onClick={onExport}
+                                disabled={canSave}
+                            >
+                                Export
+                            </button>
+                        </div>
                         <input
                             type="text"
                             placeholder="Title"

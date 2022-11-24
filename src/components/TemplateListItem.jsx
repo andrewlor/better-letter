@@ -6,6 +6,11 @@ import './TemplateListItem.sass'
 const TemplateListItem = ({ template, onClick, selected, onDelete }) => {
     const [showIcon, setShowIcon] = useState(false)
 
+    const handleDelete = (e) => {
+        e.stopPropagation()
+        onDelete()
+    }
+
     return (
         <div
             className={`template-list-item ${selected && 'selected'}`}
@@ -23,7 +28,10 @@ const TemplateListItem = ({ template, onClick, selected, onDelete }) => {
                 classNames="fade"
                 unmountOnExit
             >
-                <span className="material-icons hoverable" onClick={onDelete}>
+                <span
+                    className="material-icons hoverable"
+                    onClick={handleDelete}
+                >
                     delete
                 </span>
             </CSSTransition>

@@ -1,0 +1,38 @@
+@import '../common'
+
+.error-bar
+    display: flex
+    align-items: center
+    background-color: $error
+    padding: 20px
+    border-radius: 3px
+    position: absolute
+    left: 50%
+    color: white
+    transform: translate(-50%, 0)
+    width: 50vw
+    top: 20px
+    z-index: 1
+
+    .close
+        margin-left: auto
+
+    .icon
+        margin-right: 10px
+
+    &.success
+        background-color: $success
+
+.error-bar-enter
+    top: -60px
+
+.error-bar-enter-active
+    top: 20px
+    transition: top 200ms
+
+.error-bar-exit
+    top: 20px
+
+.error-bar-exit-active
+    top: -60px
+    transition: top 200ms

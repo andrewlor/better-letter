@@ -1,4 +1,6 @@
 import pdfMake from 'pdfmake'
+import vfs from './vfs_fonts'
+pdfMake.vfs = vfs
 
 pdfMake.fonts = {
     Roboto: {
@@ -8,6 +10,9 @@ pdfMake.fonts = {
             'https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.66/fonts/Roboto/Roboto-Italic.ttf',
         bolditalics:
             'https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.66/fonts/Roboto/Roboto-MediumItalic.ttf',
+    },
+    Poppins: {
+        normal: 'Poppins-Light.ttf',
     },
 }
 

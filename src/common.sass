@@ -2,9 +2,11 @@ $background-1: hsla(0, 0%, 20%)
 $background-2: hsla(0, 0%, 30%)
 $background-3: hsla(0, 0%, 40%)
 $primary: #6ea5ff
+$success: #218c00
+$error: #b00900
 
 *
-    font-family: 'Ubuntu', sans-serif
+    font-family: 'Poppins', sans-serif
 
 .hoverable
     transition: transform 250ms ease
@@ -25,16 +27,25 @@ button
     cursor: pointer
     transition: opacity 250ms ease
 
+    &:focus
+        outline: 2px solid $primary
+
     &:hover
         opacity: 0.6
 
     &.action
         background-color: $primary
 
+input
+    max-width: 300px
+
 input, textarea
     padding: 10px
-    border-radius: 5px
-    border: 1px solid grey
+    border-radius: 3px
+    border: none
+
+    &:focus
+        outline: 2px solid $primary
 
 body,
 #root
