@@ -1,5 +1,3 @@
-# [Document Generator UI](http://andrewlor.me/demos/document-generator)
+# [betterletter.pro](https://betterletter.pro)
 
-This app can be used to generate PDF documents using templates containing variable placeholders.
-
-Demo: https://youtu.be/iTu1ApmtKzU
+Create better letters with the power of templates and AI.

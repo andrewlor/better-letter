@@ -33,7 +33,7 @@ const App = ({
     const [selectedTemplateId, setSelectedTemplateId] = useState(null)
 
     useEffect(() => {
-        fetchTemplates()
+        if (user?.id) fetchTemplates()
     }, [user?.id])
 
     const selectedTemplate = templates?.find((t) => t.id === selectedTemplateId)

@@ -1,17 +1,27 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import { connect } from 'react-redux'
-import { LOGIN_REQUESTED, SIGNUP_REQUESTED } from '../redux'
+import {
+    LOGIN_REQUESTED,
+    SIGNUP_REQUESTED,
+    SET_SUCCESS_MESSAGE,
+} from '../redux'
 import './Login.sass'
 
-const Login = ({ isLoading, login, signup, user }) => {
+const Login = ({ isLoading, login, signup, user, setSuccessMessage }) => {
     const [credentials, setCredentials] = useState({ email: '', password: '' })
+
+    useEffect(() => {
+        if (window.location.hash?.length > 0) {
+            setSuccessMessage('Email successfully confirmed. Please login.')
+        }
+    }, [])
 
     const handleInputChange = (prop) => (e) =>
         setCredentials((o) => ({ ...o, [prop]: e.target.value }))
 
     const renderLoginForm = () => (
         <div className="login">
-            <h1>betterletter</h1>
+            <h1>Better&nbsp;Letter</h1>
             <input
                 type="text"
                 placeholder="Email"
@@ -52,5 +62,6 @@ export default connect(
     (dispatch) => ({
         login: (user) => dispatch(LOGIN_REQUESTED(user)),
         signup: (user) => dispatch(SIGNUP_REQUESTED(user)),
+        setSuccessMessage: (message) => dispatch(SET_SUCCESS_MESSAGE(message)),
     })
 )(Login)

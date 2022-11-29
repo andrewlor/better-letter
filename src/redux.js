@@ -126,7 +126,6 @@ listenerMiddleware.startListening({
             listenerApi.dispatch(LOGIN_FAILED(error.message))
             return
         }
-        console.log(user)
         listenerApi.dispatch(LOGIN_SUCCEEDED(user))
     },
 })
@@ -139,7 +138,6 @@ listenerMiddleware.startListening({
             listenerApi.dispatch(SIGNUP_FAILED(error.message))
             return
         }
-        console.log(user)
         listenerApi.dispatch(SIGNUP_SUCCEEDED(user))
     },
 })
