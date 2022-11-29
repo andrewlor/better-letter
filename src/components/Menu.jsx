@@ -5,12 +5,8 @@ import './Menu.sass'
 
 const DEFAULT_TEMPLATE = {
     title: 'New Template',
-    body: 'Dear {company},\n\nI am applying to your position for {job}.\n\nThanks,\n{name}',
-    variables: [
-        { name: 'company', defaultValue: '' },
-        { name: 'job', defaultValue: 'Software Engineer' },
-        { name: 'name', defaultValue: '' },
-    ],
+    body: '',
+    variables: [],
 }
 
 const Menu = ({ logout, addTemplate }) => (

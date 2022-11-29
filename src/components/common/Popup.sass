@@ -1,5 +1,6 @@
-@import '../common'
-.export-popup-container
+@import '../../common'
+
+.popup-container
     position: absolute
     width: 100vw
     height: 100vh
@@ -7,31 +8,33 @@
     left: 0
     background-color: rgba(0, 0, 0, 60%)
 
-    .export-popup
+    .popup
         opacity: 100%
         position: absolute
-        width: 500px
+        width: 600px
         border-radius: 5px
         top: 50%
         left: 50%
         transform: translate(-50%, -50%)
         background-color: $background-3
         padding: 20px
-        text-align: center
         display: flex
+        text-align: center
         flex-direction: column
 
         h2
-            margin: 0
+            margin-top: 0
 
         .label
-            align-self: flex-start
+            text-align: start
+            margin: 0
 
         .subtitle
             font-size: 14px
 
         input
-            margin-bottom: 10px
+            margin-bottom: 20px
+            @include fill-avaliable
 
         button
             margin-top: 10px

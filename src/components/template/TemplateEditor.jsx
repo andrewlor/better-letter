@@ -1,9 +1,12 @@
 import React, { useState, useEffect } from 'react'
 import { CSSTransition } from 'react-transition-group'
+import Popup from '../common/Popup'
+import TemplateSettings from './TemplateSettings'
 import './TemplateEditor.sass'
 
 const TemplateEditor = ({ template, save, onExport }) => {
     const [editingTemplate, setEditingTemplate] = useState(template)
+    const [showSettings, setShowSettings] = useState(false)
 
     useEffect(() => {
         setEditingTemplate(template)
@@ -13,8 +16,6 @@ const TemplateEditor = ({ template, save, onExport }) => {
         setEditingTemplate((t) => ({ ...t, [prop]: value }))
 
     const setBody = set('body')
-
-    const setTitle = set('title')
 
     const setVariables = set('variables')
 
@@ -40,12 +41,20 @@ const TemplateEditor = ({ template, save, onExport }) => {
 
     const undo = () => setEditingTemplate(template)
 
+    const toggleSettings = () => setShowSettings((v) => !v)
+
     return (
         <div className="template-editor-container">
             {editingTemplate ? (
                 <>
                     <div className="template-editor">
                         <div className="toolbar">
+                            <span
+                                className="material-icons hoverable"
+                                onClick={toggleSettings}
+                            >
+                                settings
+                            </span>
                             <button
                                 className="action"
                                 onClick={onExport}
@@ -54,12 +63,6 @@ const TemplateEditor = ({ template, save, onExport }) => {
                                 Export
                             </button>
                         </div>
-                        <input
-                            type="text"
-                            placeholder="Title"
-                            value={editingTemplate.title}
-                            onChange={(e) => setTitle(e.target.value)}
-                        />
                         <div className="variables-header">
                             <p>Variables</p>
                             <span
@@ -128,6 +131,18 @@ const TemplateEditor = ({ template, save, onExport }) => {
             ) : (
                 <h3>No template selected</h3>
             )}
+            {
+                <Popup
+                    isVisible={showSettings}
+                    onComplete={() => {
+                        save(editingTemplate)
+                        toggleSettings()
+                    }}
+                    onClose={toggleSettings}
+                >
+                    <TemplateSettings template={editingTemplate} set={set} />
+                </Popup>
+            }
         </div>
     )
 }

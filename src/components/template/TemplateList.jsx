@@ -2,7 +2,7 @@ import React, { useState } from 'react'
 import { connect } from 'react-redux'
 import TemplateListItem from './TemplateListItem'
 import './TemplateList.sass'
-import { DELETE_TEMPLATE_REQUESTED } from '../redux'
+import { DELETE_TEMPLATE_REQUESTED } from '../../redux'
 
 const TemplateList = ({
     selectedId,

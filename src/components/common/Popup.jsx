@@ -1,4 +1,5 @@
 import React from 'react'
+import { CSSTransition } from 'react-transition-group'
 import './Popup.sass'
 
 const Popup = ({
@@ -10,23 +11,30 @@ const Popup = ({
     actionText,
 }) => {
     return (
-        isVisible && (
+        <CSSTransition
+            in={isVisible}
+            timeout={200}
+            classNames="fade"
+            unmountOnExit
+        >
             <div className="popup-container">
                 <div className="popup">
                     <h2>{title}</h2>
-                    <div className="content-container">{children}</div>
-                    <button
-                        className="action-button action"
-                        onClick={onComplete}
-                    >
-                        {actionText}
-                    </button>
+                    {children}
+                    {onComplete && (
+                        <button
+                            className="action-button action"
+                            onClick={onComplete}
+                        >
+                            {actionText}
+                        </button>
+                    )}
                     <button className="close-button" onClick={onClose}>
                         Close
                     </button>
                 </div>
             </div>
-        )
+        </CSSTransition>
     )
 }
 

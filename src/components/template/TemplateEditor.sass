@@ -1,10 +1,11 @@
-@import '../common'
+@import '../../common'
 .template-editor-container
     display: flex
     flex-direction: column
     width: 100%
     align-items: center
     justify-content: center
+    overflow: scroll
 
     .template-editor
         display: flex
@@ -18,7 +19,8 @@
 
         .toolbar
             display: flex
-            justify-content: flex-end
+            justify-content: space-between
+            align-items: center
 
         .variables-header
             display: flex

@@ -1,8 +1,9 @@
-import React, { useState } from 'react'
+import React, { useState, useRef } from 'react'
 import pdfMake from '../pdfMake'
 import copy from 'copy-to-clipboard'
-import './ExportPopup.sass'
 import { useEffect } from 'react'
+import { autofillVariableValue } from '../util'
+import './Export.sass'
 
 // useEffect(() => {
 //     const openSplit = template.body.split('{')
@@ -24,8 +25,18 @@ import { useEffect } from 'react'
 //     }
 // }, [template.body])
 
-const ExportPopup = ({ template, onClose, setSuccessMessage }) => {
+const ExportPopup = ({
+    template,
+    setSuccessMessage,
+    getAutofill,
+    autofillResult,
+}) => {
     const [variables, setVariables] = useState({})
+    const [step, setStep] = useState(0)
+    const [preview, setPreview] = useState('')
+    const [autofillSelection, setAutofillSelection] = useState(null)
+
+    const textAreaRef = useRef()
 
     useEffect(() => {
         if (!template) {
@@ -36,18 +47,26 @@ const ExportPopup = ({ template, onClose, setSuccessMessage }) => {
             Object.fromEntries(
                 template?.variables?.map(({ name, defaultValue }) => [
                     name,
-                    defaultValue,
+                    defaultValue || autofillVariableValue(name),
                 ])
             )
         )
     }, [template?.id])
 
+    useEffect(() => {
+        setPreview(getExportString())
+    }, [step])
+
+    useEffect(() => {
+        setPreview((text) =>
+            text.replace(autofillSelection, autofillSelection + autofillResult)
+        )
+    }, [autofillResult])
+
     const handleInputChange = (variableName) => (e) =>
         setVariables((vars) => ({ ...vars, [variableName]: e.target.value }))
 
-    const getExportString = () => {
-        let tempStr = template?.body
-
+    const getExportString = (tempStr = template?.body) => {
         Object.entries(variables).forEach(([name, value]) => {
             tempStr = tempStr.replaceAll(`{${name}}`, value)
         })
@@ -55,16 +74,23 @@ const ExportPopup = ({ template, onClose, setSuccessMessage }) => {
         return tempStr
     }
 
+    const getFilename = () => {
+        if (template.filename && template.filename.length > 0)
+            return getExportString(template.filename)
+
+        return template.title
+    }
+
     const handleExport = () => {
         try {
             pdfMake
                 .createPdf({
-                    content: getExportString(),
+                    content: preview,
                     defaultStyle: {
                         font: 'Poppins',
                     },
                 })
-                .open()
+                .download(getFilename())
         } catch (e) {
             return
         }
@@ -76,34 +102,64 @@ const ExportPopup = ({ template, onClose, setSuccessMessage }) => {
         setSuccessMessage('Copied to clipboard')
     }
 
+    const autofill = () => {
+        const selection = window.getSelection().toString()
+        if (!selection) return
+        setAutofillSelection(selection)
+        getAutofill(selection)
+    }
+
     return (
-        <div className="export-popup-container">
-            <div className="export-popup">
-                <h2>Export</h2>
-                <p className="subtitle">
-                    Fill in variable values to generate a pdf from your{' '}
-                    {template?.title} template.
-                </p>
-                {Object.entries(variables).map(([name]) => (
-                    <React.Fragment key={name}>
-                        <p className="label">{name}</p>
-                        <input
-                            placeholder={name}
-                            value={variables[name]}
-                            onChange={handleInputChange(name)}
-                        />
-                    </React.Fragment>
-                ))}
-                <button className="action" onClick={handleExport}>
-                    Generate PDF
+        <div className="export">
+            <h2>Export</h2>
+
+            {step === 0 ? (
+                <>
+                    <p className="subtitle">
+                        Fill in variable values to generate a pdf from your{' '}
+                        {template?.title} template.
+                    </p>
+                    {Object.entries(variables).map(([name]) => (
+                        <React.Fragment key={name}>
+                            <p className="label">{name}</p>
+                            <input
+                                placeholder={name}
+                                value={variables[name]}
+                                onChange={handleInputChange(name)}
+                            />
+                        </React.Fragment>
+                    ))}
+                </>
+            ) : (
+                <>
+                    <div className="preview-toolbar">
+                        <p className="label">Preview</p>
+                        <button onClick={autofill}>
+                            <span className="material-icons">smart_button</span>
+                        </button>
+                    </div>
+                    <textarea
+                        ref={textAreaRef}
+                        rows="20"
+                        value={preview}
+                        onChange={(e) => setPreview(e.target.value)}
+                    />
+                </>
+            )}
+            {step === 0 ? (
+                <button className="action" onClick={() => setStep(1)}>
+                    Continue
                 </button>
-                <button className="action" onClick={copyText}>
-                    Copy as Text
-                </button>
-                <button className="close-button" onClick={onClose}>
-                    Close
-                </button>
-            </div>
+            ) : (
+                <>
+                    <button className="action" onClick={handleExport}>
+                        Generate PDF
+                    </button>
+                    <button className="action" onClick={copyText}>
+                        Copy as Text
+                    </button>
+                </>
+            )}
         </div>
     )
 }

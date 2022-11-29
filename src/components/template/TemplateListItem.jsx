@@ -1,6 +1,6 @@
 import React, { useState } from 'react'
 import { CSSTransition } from 'react-transition-group'
-import { formatDate } from '../util'
+import { formatDate } from '../../util'
 import './TemplateListItem.sass'
 
 const TemplateListItem = ({ template, onClick, selected, onDelete }) => {

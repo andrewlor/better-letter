@@ -12,7 +12,6 @@ const Login = ({ isLoading, login, signup, user }) => {
     const renderLoginForm = () => (
         <div className="login">
             <h1>betterletter</h1>
-            <p>Make better letters.</p>
             <input
                 type="text"
                 placeholder="Email"

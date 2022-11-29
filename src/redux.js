@@ -38,6 +38,9 @@ export const DELETE_TEMPLATE_SUCCEEDED = createAction(
 export const DELETE_TEMPLATE_FAILED = createAction('DELETE_TEMPLATE_FAILED')
 export const CLEAR_ERROR = createAction('CLEAR_ERROR')
 export const SET_SUCCESS_MESSAGE = createAction('SET_SUCCESS_MESSAGE')
+export const AI_AUTOFILL_REQUESTED = createAction('AI_AUTOFILL_REQUESTED')
+export const AI_AUTOFILL_SUCCEEDED = createAction('AI_AUTOFILL_SUCCEEDED')
+export const AI_AUTOFILL_FAILED = createAction('AI_AUTOFILL_FAILED')
 
 const initialState = {
     isLoading: false,
@@ -47,6 +50,7 @@ const initialState = {
         type: 'error',
         text: null,
     },
+    autofillResult: null,
 }
 
 const clearError = (state) => {
@@ -88,6 +92,7 @@ const reducer = createReducer(initialState, (builder) => {
         .addCase(FETCH_TEMPLATES_REQUESTED, startLoading)
         .addCase(UPSERT_TEMPLATE_REQUESTED, startLoading)
         .addCase(DELETE_TEMPLATE_REQUESTED, startLoading)
+        .addCase(AI_AUTOFILL_REQUESTED, startLoading)
         .addCase(LOGIN_SUCCEEDED, handleLoginSignup)
         .addCase(SIGNUP_SUCCEEDED, handleLoginSignup)
         .addCase(LOGOUT_SUCCEEDED, (state) => {
@@ -96,14 +101,19 @@ const reducer = createReducer(initialState, (builder) => {
         })
         .addCase(LOGIN_FAILED, handleError)
         .addCase(SIGNUP_FAILED, handleError)
+        .addCase(AI_AUTOFILL_FAILED, handleError)
         .addCase(FETCH_TEMPLATES_SUCCEEDED, (state, action) => {
             state.templates = action.payload
             stopLoading(state)
         })
+        .addCase(AI_AUTOFILL_SUCCEEDED, (state, action) => {
+            state.autofillResult = action.payload
+            stopLoading(state)
+        })
         .addCase(UPSERT_TEMPLATE_SUCCEEDED, stopLoading)
-        .addCase(UPSERT_TEMPLATE_FAILED, stopLoading)
+        .addCase(UPSERT_TEMPLATE_FAILED, handleError)
         .addCase(DELETE_TEMPLATE_SUCCEEDED, stopLoading)
-        .addCase(DELETE_TEMPLATE_FAILED, stopLoading)
+        .addCase(DELETE_TEMPLATE_FAILED, handleError)
 })
 
 const listenerMiddleware = createListenerMiddleware()
@@ -188,6 +198,31 @@ listenerMiddleware.startListening({
     matcher: isAnyOf(DELETE_TEMPLATE_SUCCEEDED, UPSERT_TEMPLATE_SUCCEEDED),
     effect: async (_, listenerApi) => {
         listenerApi.dispatch(FETCH_TEMPLATES_REQUESTED())
+    },
+})
+
+listenerMiddleware.startListening({
+    actionCreator: AI_AUTOFILL_REQUESTED,
+    effect: async (action, listenerApi) => {
+        const response = await fetch(
+            'https://uvm5ggl2fhgrldtstgmnmcwimy0lbohn.lambda-url.us-west-2.on.aws/',
+            {
+                method: 'post',
+                body: action.payload,
+                headers: {
+                    Authorization: `Bearer ${
+                        supabase.auth.session()?.access_token
+                    }`,
+                },
+            }
+        )
+        if (response.status !== 200) {
+            listenerApi.dispatch(AI_AUTOFILL_FAILED('Autofill failed.'))
+            return
+        }
+        response
+            .text()
+            .then((text) => listenerApi.dispatch(AI_AUTOFILL_SUCCEEDED(text)))
     },
 })
 
