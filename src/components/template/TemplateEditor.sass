@@ -3,9 +3,11 @@
     display: flex
     flex-direction: column
     width: 100%
-    align-items: center
-    justify-content: center
     overflow: scroll
+
+    &.empty
+        align-items: center
+        justify-content: center
 
     .template-editor
         display: flex
@@ -14,17 +16,19 @@
         @include fill-avaliable
         margin-bottom: auto
 
-        *
-            margin-bottom: 10px
+        textarea
+            resize: none
 
         .toolbar
             display: flex
             justify-content: space-between
             align-items: center
+            margin-bottom: 10px
 
         .variables-header
             display: flex
             align-items: center
+            margin-bottom: 10px
 
             *
                 margin: 0
@@ -32,6 +36,8 @@
         .variable-inputs-container
             display: flex
             align-items: center
+            margin-bottom: 10px
+            overflow: scroll
 
             input
                 flex: 1

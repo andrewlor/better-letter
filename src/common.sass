@@ -1,3 +1,4 @@
+$background-0: hsla(0, 0%, 10%)
 $background-1: hsla(0, 0%, 20%)
 $background-2: hsla(0, 0%, 30%)
 $background-3: hsla(0, 0%, 40%)
@@ -76,6 +77,10 @@ body,
 
     cursor: pointer
 
+    &.disabled
+        cursor: no-drop
+        opacity: 0.5
+
 .fade-enter
     opacity: 0
 
@@ -108,3 +113,61 @@ body,
     width: -moz-available
     width: -webkit-fill-available
     width: fill-available
+
+.react-hint
+    padding: 5px
+    position: absolute
+    z-index: 9999
+    cursor: default
+    animation: 250ms fadeIn
+
+    &__content
+        padding: 5px
+        border-radius: 5px
+        background: $background-0
+        color: white
+
+    &:after
+        content: ''
+        width: 0
+        height: 0
+        margin: auto
+        display: block
+        position: absolute
+        top: 0
+        left: 0
+        right: 0
+        bottom: 0
+        border: 5px solid transparent
+
+    &--top:after
+        top: auto
+        border-bottom: none
+        border-top-color: $background-0
+
+    &--left:after
+        left: auto
+        border-right: none
+        border-left-color: $background-0
+
+    &--right:after
+        right: auto
+        border-left: none
+        border-right-color: $background-0
+
+    &--bottom:after
+        bottom: auto
+        border-top: none
+        border-bottom-color: $background-0
+
+    &--top
+        margin-bottom: 10px
+
+    &--left
+        margin-right: 10px
+
+    &--right
+        margin-left: 10px
+
+    &--bottom
+        margin-top: 10px

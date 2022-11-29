@@ -35,6 +35,7 @@ const ExportPopup = ({
     const [step, setStep] = useState(0)
     const [preview, setPreview] = useState('')
     const [autofillSelection, setAutofillSelection] = useState(null)
+    const [hasSelectedText, setHasSelectedText] = useState(false)
 
     const textAreaRef = useRef()
 
@@ -103,10 +104,26 @@ const ExportPopup = ({
     }
 
     const autofill = () => {
-        const selection = window.getSelection().toString()
+        if (!hasSelectedText) return
+        const selection = window.getSelection().toString().trim()
         if (!selection) return
+        if (selection.split(' ').length > 20) return
         setAutofillSelection(selection)
         getAutofill(selection)
+        setHasSelectedText(false)
+    }
+
+    const updateSelection = () => {
+        const selection = window.getSelection().toString()
+        if (
+            !selection ||
+            selection.length < 1 ||
+            selection.split(' ').length > 20
+        ) {
+            setHasSelectedText(false)
+        } else {
+            setHasSelectedText(true)
+        }
     }
 
     return (
@@ -132,10 +149,28 @@ const ExportPopup = ({
                 </>
             ) : (
                 <>
+                    <p className="subtitle">
+                        Make final changes to customize your letter below. Try
+                        the AI Autocomplete feature by selecting text and
+                        hitting the magic button!
+                    </p>
                     <div className="preview-toolbar">
                         <p className="label">Preview</p>
-                        <button onClick={autofill}>
-                            <span className="material-icons">smart_button</span>
+                        <button
+                            onClick={autofill}
+                            data-rh={
+                                hasSelectedText
+                                    ? 'AI Autocomplete'
+                                    : 'Please select text below (max 20 words)'
+                            }
+                        >
+                            <span
+                                className={`material-icons hoverable ${
+                                    !hasSelectedText && 'disabled'
+                                }`}
+                            >
+                                auto_fix_normal
+                            </span>
                         </button>
                     </div>
                     <textarea
@@ -143,6 +178,7 @@ const ExportPopup = ({
                         rows="20"
                         value={preview}
                         onChange={(e) => setPreview(e.target.value)}
+                        onSelect={updateSelection}
                     />
                 </>
             )}

@@ -31,6 +31,7 @@ const TemplateListItem = ({ template, onClick, selected, onDelete }) => {
                 <span
                     className="material-icons hoverable"
                     onClick={handleDelete}
+                    data-rh="Delete Template"
                 >
                     delete
                 </span>

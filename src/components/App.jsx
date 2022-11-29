@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react'
 import { connect } from 'react-redux'
+import ReactHintFactory from 'react-hint'
 import {
     AI_AUTOFILL_REQUESTED,
     FETCH_TEMPLATES_REQUESTED,
@@ -16,6 +17,8 @@ import './App.sass'
 import '../common.sass'
 import ErrorBar from './common/ErrorBar'
 import Popup from './common/Popup'
+
+const ReactHint = ReactHintFactory(React)
 
 const App = ({
     user,
@@ -62,6 +65,7 @@ const App = ({
                     getAutofill={getAutofill}
                 />
             </Popup>
+            <ReactHint autoPosition events />
         </div>
     )
 

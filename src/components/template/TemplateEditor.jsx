@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react'
 import { CSSTransition } from 'react-transition-group'
 import Popup from '../common/Popup'
 import TemplateSettings from './TemplateSettings'
+import Info from '../common/Info'
 import './TemplateEditor.sass'
 
 const TemplateEditor = ({ template, save, onExport }) => {
@@ -44,7 +45,11 @@ const TemplateEditor = ({ template, save, onExport }) => {
     const toggleSettings = () => setShowSettings((v) => !v)
 
     return (
-        <div className="template-editor-container">
+        <div
+            className={`template-editor-container ${
+                !editingTemplate && 'empty'
+            }`}
+        >
             {editingTemplate ? (
                 <>
                     <div className="template-editor">
@@ -52,6 +57,7 @@ const TemplateEditor = ({ template, save, onExport }) => {
                             <span
                                 className="material-icons hoverable"
                                 onClick={toggleSettings}
+                                data-rh="Settings"
                             >
                                 settings
                             </span>
@@ -68,6 +74,7 @@ const TemplateEditor = ({ template, save, onExport }) => {
                             <span
                                 className="material-icons hoverable"
                                 onClick={addVariable}
+                                data-rh="Add Variable"
                             >
                                 add
                             </span>
@@ -97,6 +104,7 @@ const TemplateEditor = ({ template, save, onExport }) => {
                                     <span
                                         className="material-icons hoverable"
                                         onClick={onDeleteVariable(i)}
+                                        data-rh="Delete Variable"
                                     >
                                         delete
                                     </span>
@@ -105,11 +113,16 @@ const TemplateEditor = ({ template, save, onExport }) => {
                         )}
                         <textarea
                             className="body"
-                            rows="10"
+                            rows="20"
                             placeholder="Body"
                             value={editingTemplate.body}
                             onChange={(e) => setBody(e.target.value)}
                         />
+                        <Info>
+                            Use {'{'}curley braces{'}'} around a variable name
+                            to insert it into your letter body. Eg. if your
+                            variable name is 'company', write {'{'}company{'}'}.
+                        </Info>
                     </div>
                     <CSSTransition
                         in={canSave}

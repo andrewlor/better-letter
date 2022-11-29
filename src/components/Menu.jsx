@@ -9,18 +9,39 @@ const DEFAULT_TEMPLATE = {
     variables: [],
 }
 
-const Menu = ({ logout, addTemplate }) => (
+const Menu = ({ logout, addTemplate, user }) => (
     <div className="menu">
-        <span className="material-icons hoverable" onClick={addTemplate}>
+        <span
+            className="material-icons first hoverable"
+            onClick={addTemplate}
+            data-rh="Add Template"
+            data-rh-at="right"
+        >
             add
         </span>
-        <span className="material-icons hoverable last" onClick={logout}>
+        <span
+            className="material-icons"
+            data-rh={user?.email}
+            data-rh-at="right"
+        >
+            account_circle
+        </span>
+        <span
+            className="material-icons hoverable"
+            onClick={logout}
+            data-rh="Log Out"
+            data-rh-at="right"
+        >
             logout
         </span>
     </div>
 )
 
-export default connect(null, (dispatch) => ({
-    addTemplate: () => dispatch(UPSERT_TEMPLATE_REQUESTED(DEFAULT_TEMPLATE)),
-    logout: () => dispatch(LOGOUT_REQUESTED()),
-}))(Menu)
+export default connect(
+    ({ user }) => ({ user }),
+    (dispatch) => ({
+        addTemplate: () =>
+            dispatch(UPSERT_TEMPLATE_REQUESTED(DEFAULT_TEMPLATE)),
+        logout: () => dispatch(LOGOUT_REQUESTED()),
+    })
+)(Menu)

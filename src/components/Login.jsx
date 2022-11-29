@@ -21,7 +21,10 @@ const Login = ({ isLoading, login, signup, user, setSuccessMessage }) => {
 
     const renderLoginForm = () => (
         <div className="login">
-            <h1>Better&nbsp;Letter</h1>
+            <div className="title-container">
+                <h1>Better&nbsp;Letter</h1>
+                <span className="material-icons">history_edu</span>
+            </div>
             <input
                 type="text"
                 placeholder="Email"

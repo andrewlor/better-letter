@@ -1,4 +1,5 @@
 import React from 'react'
+import Info from '../common/Info'
 
 const TemplateSettings = ({ template, set }) => {
     return (
@@ -11,6 +12,10 @@ const TemplateSettings = ({ template, set }) => {
                 value={template.title}
                 onChange={(e) => set('title')(e.target.value)}
             />
+            <Info>
+                You can use variables in your filename! Just use {'{'}curley
+                braces{'}'} around the variable name.
+            </Info>
             <p className="label">File Name</p>
             <input
                 type="text"
