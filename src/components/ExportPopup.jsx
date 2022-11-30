@@ -55,6 +55,18 @@ const ExportPopup = ({
     }, [template?.id])
 
     useEffect(() => {
+        if (
+            !autofillSelection ||
+            autofillSelection.length < 1 ||
+            autofillSelection.split(' ').length > 20
+        ) {
+            setHasSelectedText(false)
+        } else {
+            setHasSelectedText(true)
+        }
+    }, [autofillSelection])
+
+    useEffect(() => {
         setPreview(getExportString())
     }, [step])
 
@@ -105,25 +117,13 @@ const ExportPopup = ({
 
     const autofill = () => {
         if (!hasSelectedText) return
-        const selection = window.getSelection().toString().trim()
-        if (!selection) return
-        if (selection.split(' ').length > 20) return
-        setAutofillSelection(selection)
-        getAutofill(selection)
+        getAutofill(autofillSelection)
         setHasSelectedText(false)
     }
 
     const updateSelection = () => {
-        const selection = window.getSelection().toString()
-        if (
-            !selection ||
-            selection.length < 1 ||
-            selection.split(' ').length > 20
-        ) {
-            setHasSelectedText(false)
-        } else {
-            setHasSelectedText(true)
-        }
+        const selection = window.getSelection().toString().trim()
+        setAutofillSelection(selection)
     }
 
     return (

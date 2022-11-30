@@ -32,7 +32,6 @@ const Login = ({ isLoading, login, signup, user, setSuccessMessage }) => {
                 onChange={handleInputChange('email')}
                 disabled={isLoading}
             />
-
             <input
                 type="password"
                 placeholder="Password"
@@ -40,11 +39,7 @@ const Login = ({ isLoading, login, signup, user, setSuccessMessage }) => {
                 onChange={handleInputChange('password')}
                 disabled={isLoading}
             />
-            <button
-                className="action"
-                onClick={() => login(credentials)}
-                disabled={isLoading}
-            >
+            <button className="action" onClick={() => login(credentials)}>
                 Log In
             </button>
             <button onClick={() => signup(credentials)}>Sign Up</button>
